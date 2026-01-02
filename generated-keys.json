@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2025-12-26T19:36:52.169Z",
+  "count": 1,
+  "keys": [
+    {
+      "key": "MONTH-SORV-1H5K-TYLQ-7AK0-364A",
+      "type": "monthly",
+      "durationMonths": 1,
+      "customerEmail": null,
+      "notes": "",
+      "createdAt": "2025-12-26T19:36:52.166Z",
+      "expiresAt": "2026-01-26T19:36:52.166Z",
+      "isActive": true,
+      "usedByDeviceId": null,
+      "activatedAt": null
+    }
+  ]
+}
