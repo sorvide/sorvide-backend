@@ -192,348 +192,659 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Sorvide Pro License Key</title>
+  <title>Welcome to Sorvide Pro!</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
     body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
       line-height: 1.6; 
-      color: #333; 
-      max-width: 600px; 
-      margin: 0 auto; 
+      color: #1a202c; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
       padding: 20px;
-      background-color: #f5f7fa;
     }
     
-    .container {
+    .email-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
       background: white;
-      border-radius: 16px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     }
     
+    /* HEADER - Full width design */
     .header { 
-      background: linear-gradient(135deg, #4a4fd8, #2a2d7d); 
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
       color: white; 
-      padding: 40px 30px; 
-      text-align: center; 
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.1;
     }
     
     .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 10px;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+      position: relative;
     }
     
     .header p {
-      font-size: 16px;
-      opacity: 0.9;
+      font-size: 20px;
+      opacity: 0.95;
+      font-weight: 300;
+      position: relative;
     }
     
+    .welcome-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+      display: block;
+      position: relative;
+    }
+    
+    /* CONTENT */
     .content { 
-      padding: 40px 30px; 
+      padding: 50px 40px; 
     }
     
     .greeting {
-      font-size: 18px;
+      font-size: 22px;
       color: #2d3748;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
+      font-weight: 600;
     }
     
     .intro {
       color: #4a5568;
-      margin-bottom: 32px;
+      font-size: 17px;
+      margin-bottom: 40px;
       line-height: 1.7;
     }
     
-    .license-box { 
-      background: linear-gradient(135deg, #f8f9ff, #eef2ff); 
-      border: 2px solid #4a4fd8; 
-      border-radius: 12px; 
-      padding: 24px; 
-      margin: 24px 0; 
-      font-family: 'SF Mono', Monaco, 'Courier New', monospace; 
-      font-size: 20px; 
-      font-weight: 700; 
+    /* LICENSE KEY - Prominent design */
+    .license-section {
       text-align: center;
-      letter-spacing: 0.5px;
-      color: #2d3748;
-      box-shadow: 0 2px 8px rgba(74, 79, 216, 0.1);
+      margin-bottom: 48px;
     }
     
-    .receipt-section {
-      background: #f8f9ff;
-      border-radius: 12px;
-      padding: 24px;
-      margin: 24px 0;
+    .license-label {
+      font-size: 14px;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    .license-box { 
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      border: 3px solid #e2e8f0;
+      border-radius: 16px; 
+      padding: 28px 20px;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace; 
+      font-size: 24px; 
+      font-weight: 700; 
+      letter-spacing: 1px;
+      color: #2d3748;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .license-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
+      border-color: #4f46e5;
+    }
+    
+    /* RECEIPT - Clean card design */
+    .receipt-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      margin: 40px 0;
       border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
     
     .receipt-title {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       color: #2d3748;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
       text-align: center;
-    }
-    
-    .receipt-row {
       display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #e2e8f0;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
     
-    .receipt-row:last-child {
-      border-bottom: none;
+    .receipt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .receipt-item {
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
     }
     
     .receipt-label {
-      color: #4a5568;
-      font-weight: 500;
+      color: #718096;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
     }
     
     .receipt-value {
       color: #2d3748;
-      font-weight: 600;
-    }
-    
-    .important-note {
-      background: #fff8f0;
-      border-left: 4px solid #ed8936;
-      padding: 16px;
-      margin: 20px 0;
-      border-radius: 8px;
-    }
-    
-    .cancellation-info {
-      background: #ebf8ff;
-      border: 1px solid #90cdf4;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 24px 0;
-    }
-    
-    .cancellation-title {
-      color: #2c5282;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     
-    .no-refunds {
-      background: #fed7d7;
-      border: 1px solid #fc8181;
-      border-radius: 8px;
-      padding: 16px;
-      margin: 16px 0;
-      font-size: 14px;
-      color: #9b2c2c;
+    .receipt-note {
+      background: linear-gradient(135deg, #fff7ed, #fed7aa);
+      border-left: 4px solid #ed8936;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 24px;
+      font-size: 15px;
+      color: #9c4221;
     }
     
-    .steps-container {
-      margin: 32px 0;
+    /* STEPS - Perfectly centered numbers */
+    .steps-section {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 40px;
+      margin: 40px 0;
     }
     
     .steps-title {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       color: #2d3748;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
     
-    .step { 
-      display: flex; 
-      align-items: flex-start; 
-      margin-bottom: 20px; 
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 32px;
     }
     
-    .step-number { 
-      background: #4a4fd8; 
-      color: white; 
-      width: 32px; 
-      height: 32px; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      margin-right: 16px; 
-      flex-shrink: 0;
+    .step-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+    
+    .step-number {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
       font-weight: 700;
-      font-size: 16px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 2;
     }
     
-    .step-content {
-      padding-top: 4px;
-      color: #4a5568;
+    .step-content h4 {
+      font-size: 18px;
+      color: #2d3748;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    
+    .step-content p {
+      color: #718096;
+      font-size: 15px;
       line-height: 1.6;
     }
     
+    /* FEATURES - Beautiful grid */
+    .features-section {
+      margin: 48px 0;
+    }
+    
+    .features-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      border-color: #4f46e5;
+      transform: translateY(-2px);
+    }
+    
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      color: #4f46e5;
+    }
+    
+    .feature-card h4 {
+      font-size: 16px;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    
+    .feature-card p {
+      color: #718096;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    /* SUPPORT SECTION */
     .support-section {
-      background: #f0fff4;
-      border: 1px solid #9ae6b4;
-      border-radius: 12px;
-      padding: 20px;
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 48px 0;
+      text-align: center;
+      border: 1px solid #86efac;
+    }
+    
+    .support-title {
+      font-size: 24px;
+      color: #166534;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+    
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
       margin: 32px 0;
     }
     
+    .support-item {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #86efac;
+    }
+    
+    .support-label {
+      color: #166534;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .support-value {
+      color: #1a202c;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    
+    .support-note {
+      color: #166534;
+      font-size: 14px;
+      font-style: italic;
+      margin-top: 20px;
+    }
+    
+    /* CANCELLATION INFO */
+    .cancellation-card {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 20px;
+      padding: 32px;
+      margin: 40px 0;
+      border: 1px solid #fbbf24;
+    }
+    
+    .cancellation-title {
+      color: #92400e;
+      font-size: 22px;
+      margin-bottom: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .policy-box {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    
+    .policy-title {
+      color: #92400e;
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    
+    .policy-text {
+      color: #78350f;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    /* SIGNATURE */
+    .signature {
+      text-align: center;
+      margin: 48px 0 32px;
+      padding-top: 32px;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .signature h3 {
+      font-size: 20px;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    
+    .signature p {
+      color: #718096;
+      font-size: 16px;
+    }
+    
+    /* FOOTER - Minimal */
     .footer { 
       text-align: center; 
-      margin-top: 40px; 
-      color: #718096; 
+      padding: 32px 40px;
+      color: #a0aec0; 
       font-size: 13px;
+      background: #f8fafc;
       border-top: 1px solid #e2e8f0;
-      padding-top: 24px;
     }
     
-    .contact-info {
+    .copyright {
       margin-top: 16px;
-      font-size: 13px;
+      font-size: 12px;
+      opacity: 0.7;
     }
     
-    .highlight {
-      color: #4a4fd8;
-      font-weight: 600;
+    @media (max-width: 640px) {
+      .header { padding: 40px 24px; }
+      .header h1 { font-size: 32px; }
+      .header p { font-size: 18px; }
+      .content { padding: 32px 24px; }
+      .receipt-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .support-grid { grid-template-columns: 1fr; }
+      .license-box { font-size: 20px; padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="email-wrapper">
+    <!-- HEADER - Full width welcome banner -->
     <div class="header">
-      <h1>🎉 Welcome to Sorvide Pro!</h1>
-      <p>Your monthly subscription is now active</p>
+      <div class="welcome-icon">✨</div>
+      <h1>Welcome to Sorvide Pro!</h1>
+      <p>Your AI research assistant just got superpowers</p>
     </div>
     
+    <!-- CONTENT -->
     <div class="content">
-      <p class="greeting">Hi ${customerName || 'Valued Customer'},</p>
-      
-      <p class="intro">Thank you for subscribing to <strong>Sorvide Pro Monthly</strong>! Your license key is ready and your Pro features are now unlocked.</p>
-      
-      <div class="license-box">
-        ${licenseKey}
-      </div>
-      
-      <div class="receipt-section">
-        <h3 class="receipt-title">📋 Purchase Receipt</h3>
-        
-        <div class="receipt-row">
-          <span class="receipt-label">Plan</span>
-          <span class="receipt-value">Sorvide Pro Monthly</span>
-        </div>
-        
-        <div class="receipt-row">
-          <span class="receipt-label">Price</span>
-          <span class="receipt-value">$9.99/month</span>
-        </div>
-        
-        <div class="receipt-row">
-          <span class="receipt-label">Billing Cycle</span>
-          <span class="receipt-value">Monthly</span>
-        </div>
-        
-        <div class="receipt-row">
-          <span class="receipt-label">License Duration</span>
-          <span class="receipt-value">30 days (auto-renews)</span>
-        </div>
-        
-        <div class="receipt-row">
-          <span class="receipt-label">Next Billing Date</span>
-          <span class="receipt-value">In 30 days</span>
-        </div>
-        
-        <div class="important-note">
-          <strong>Important:</strong> This is your license confirmation email. Please save this email for your records.
-        </div>
-      </div>
-      
-      <div class="cancellation-info">
-        <h4 class="cancellation-title">
-          <span>🔒 Subscription Management</span>
-        </h4>
-        <p><strong>To cancel your subscription:</strong></p>
-        <p>Since Stripe doesn't allow self-service cancellation through payment links, please contact us directly to cancel your subscription.</p>
-        <p><strong>📧 Email:</strong> <span class="highlight">license@sorvide.com</span></p>
-        <p><strong>📝 Include in your email:</strong> Your email address and request to cancel</p>
-        <p><strong>⏰ Processing time:</strong> Cancellation requests are processed within 24 hours</p>
-        
-        <div class="no-refunds">
-          <strong>⚠️ No Refunds Policy:</strong> Unfortunately, we do not offer refunds at this time. Our AI models are resource-intensive and costly to run. However, you can cancel your subscription at any time to avoid future charges after the current billing period.
-        </div>
-      </div>
-      
-      <div class="steps-container">
-        <h3 class="steps-title">🔑 How to Activate Pro Features:</h3>
-        
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Open the Sorvide Chrome extension</strong><br>
-            Click the Sorvide icon in your browser toolbar
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Click "Activate Pro"</strong><br>
-            Find this button in the bottom status bar of the extension
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <strong>Enter your license key</strong><br>
-            Copy and paste the license key shown above
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <strong>Click "Activate License"</strong><br>
-            You'll immediately gain access to all Pro features!
-          </div>
-        </div>
-      </div>
-      
-      <p style="margin-top: 24px; color: #4a5568;">
-        <strong>🚀 Pro Features You Now Have Access To:</strong><br>
-        • <strong>Unlimited AI summaries</strong> (vs. 5 daily free limit)<br>
-        • <strong>Advanced plagiarism detection</strong> with detailed reports<br>
-        • <strong>AI-powered research insights</strong> and analysis<br>
-        • <strong>Export to PDF/Markdown</strong> with formatting preserved<br>
-        • <strong>Priority email support</strong> with faster response times<br>
-        • <strong>Advanced research library</strong> with tagging and organization<br>
-        • <strong>Custom citation styles</strong> beyond APA/MLA<br>
-        • <strong>And much more!</strong>
+      <!-- Greeting -->
+      <p class="greeting">Hi ${customerName || 'there'},</p>
+      <p class="intro">
+        Thank you for joining Sorvide Pro! You've just unlocked premium AI research capabilities. 
+        Below is everything you need to get started with your new Pro subscription.
       </p>
       
+      <!-- LICENSE KEY -->
+      <div class="license-section">
+        <div class="license-label">Your License Key</div>
+        <div class="license-box">${licenseKey}</div>
+        <p style="color: #718096; font-size: 14px; margin-top: 12px;">
+          Copy this key to activate your Pro features
+        </p>
+      </div>
+      
+      <!-- PURCHASE RECEIPT -->
+      <div class="receipt-card">
+        <div class="receipt-title">
+          <span>📋</span>
+          <span>Purchase Details</span>
+        </div>
+        
+        <div class="receipt-grid">
+          <div class="receipt-item">
+            <div class="receipt-label">Subscription Plan</div>
+            <div class="receipt-value">Sorvide Pro Monthly</div>
+          </div>
+          
+          <div class="receipt-item">
+            <div class="receipt-label">Monthly Price</div>
+            <div class="receipt-value">$9.99 / month</div>
+          </div>
+          
+          <div class="receipt-item">
+            <div class="receipt-label">Billing Cycle</div>
+            <div class="receipt-value">Recurring Monthly</div>
+          </div>
+          
+          <div class="receipt-item">
+            <div class="receipt-label">License Duration</div>
+            <div class="receipt-value">30 Days (Auto-Renews)</div>
+          </div>
+        </div>
+        
+        <div class="receipt-note">
+          <strong>Important:</strong> This email serves as your purchase confirmation and license activation receipt. 
+          Please keep it for your records. Your subscription will automatically renew every 30 days unless cancelled.
+        </div>
+      </div>
+      
+      <!-- ACTIVATION STEPS - Perfectly centered -->
+      <div class="steps-section">
+        <div class="steps-title">
+          <span>🔑</span>
+          <span>Activate Your Pro Features</span>
+        </div>
+        
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Open Extension</h4>
+              <p>Click the Sorvide icon in your Chrome toolbar to open the extension</p>
+            </div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Activate Pro</h4>
+              <p>Click "Activate Pro" in the bottom status bar of the extension</p>
+            </div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Enter License Key</h4>
+              <p>Paste your license key from above into the activation dialog</p>
+            </div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Enjoy Pro Features</h4>
+              <p>Click "Activate License" and immediately access all Pro capabilities</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PRO FEATURES -->
+      <div class="features-section">
+        <div class="features-title">✨ Pro Features You Now Have Access To</div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h4>Unlimited AI Summaries</h4>
+            <p>No daily limits - summarize as much content as you need for your research</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h4>Advanced Plagiarism Check</h4>
+            <p>Detailed similarity reports with highlighted matching content</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">💡</div>
+            <h4>AI Research Insights</h4>
+            <p>Get intelligent analysis and key takeaways from your research materials</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📤</div>
+            <h4>Export to PDF/Markdown</h4>
+            <p>Save your research with perfect formatting for reports and documentation</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🏷️</div>
+            <h4>Advanced Organization</h4>
+            <p>Tag, categorize, and search through your entire research library</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h4>Priority Support</h4>
+            <p>Faster response times and dedicated help for Pro members</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SUPPORT SECTION -->
       <div class="support-section">
-        <h4 style="color: #22543d; margin-bottom: 16px;">💬 Need Help or Have Questions?</h4>
-        <p>If you encounter any issues activating your license or have questions about your subscription:</p>
-        <p><strong>📧 General Support:</strong> <span class="highlight">support@sorvide.com</span></p>
-        <p><strong>📧 Subscription/Cancellation:</strong> <span class="highlight">license@sorvide.com</span></p>
-        <p><strong>⏰ Response Time:</strong> We typically respond within 24 hours</p>
-        <p><em>Please do not reply to this automated email. Use the support emails above for assistance.</em></p>
+        <div class="support-title">💬 Need Help?</div>
+        <p style="color: #166534; font-size: 16px; margin-bottom: 24px;">
+          Our support team is here to help you get the most out of Sorvide Pro
+        </p>
+        
+        <div class="support-grid">
+          <div class="support-item">
+            <div class="support-label">General Support</div>
+            <div class="support-value">support@sorvide.com</div>
+          </div>
+          
+          <div class="support-item">
+            <div class="support-label">Subscription Questions</div>
+            <div class="support-value">license@sorvide.com</div>
+          </div>
+        </div>
+        
+        <p class="support-note">
+          Typical response time: Within 24 hours<br>
+          Please use these emails instead of replying to this automated message
+        </p>
       </div>
       
-      <p style="margin-top: 32px; color: #4a5568; text-align: center;">
-        Thank you for supporting Sorvide!<br>
-        <strong>The Sorvide Team</strong>
-      </p>
+      <!-- CANCELLATION POLICY -->
+      <div class="cancellation-card">
+        <div class="cancellation-title">
+          <span>⚙️</span>
+          <span>Subscription Management</span>
+        </div>
+        
+        <p style="color: #78350f; font-size: 16px; margin-bottom: 20px; line-height: 1.6;">
+          To cancel your subscription, please email us directly at <strong>license@sorvide.com</strong>. 
+          Include your registered email address and request to cancel. 
+          Cancellations are processed within 24 hours of receiving your request.
+        </p>
+        
+        <div class="policy-box">
+          <div class="policy-title">Refund Policy</div>
+          <div class="policy-text">
+            We do not offer refunds for subscriptions. Our AI infrastructure requires significant computational resources, 
+            which are allocated immediately upon subscription. You may cancel at any time to stop future billing cycles.
+          </div>
+        </div>
+      </div>
+      
+      <!-- SIGNATURE -->
+      <div class="signature">
+        <h3>Happy researching!</h3>
+        <p>The Sorvide Team</p>
+      </div>
     </div>
     
+    <!-- MINIMAL FOOTER -->
     <div class="footer">
-      <p>© ${new Date().getFullYear()} Sorvide</p>
-      <p>This email was sent to ${customerEmail}</p>
-      <div class="contact-info">
-        <p>Sorvide • support@sorvide.com</p>
-        <p>This is an automated message, please do not reply directly.</p>
-        <p>By using Sorvide Pro, you agree to our Terms of Service and Privacy Policy.</p>
-      </div>
+      <div>© ${new Date().getFullYear()} Sorvide Pro</div>
+      <div class="copyright">All rights reserved</div>
     </div>
   </div>
 </body>
@@ -541,77 +852,75 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       `;
       
       const text = `
-==========================================
-            SORVIDE PRO - RECEIPT
-==========================================
+╔════════════════════════════════════════╗
+           WELCOME TO SORVIDE PRO
+╚════════════════════════════════════════╝
 
-Hi ${customerName || 'Valued Customer'},
+Hi ${customerName || 'there'},
 
-Thank you for subscribing to Sorvide Pro Monthly! Your license key is ready to use.
+Thank you for subscribing to Sorvide Pro! You've just unlocked premium AI research capabilities.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          YOUR LICENSE KEY:
-          ${licenseKey}
+           YOUR LICENSE KEY
+           ${licenseKey}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📋 PURCHASE RECEIPT:
-• Plan: Sorvide Pro Monthly
-• Price: $9.99/month
-• Billing Cycle: Monthly
+📋 PURCHASE DETAILS
+──────────────────
+• Subscription: Sorvide Pro Monthly
+• Price: $9.99 / month
+• Billing: Recurring monthly
 • License Duration: 30 days (auto-renews)
-• Next Billing Date: In 30 days
+• Next Renewal: In 30 days
 
-Important: This is your license confirmation email. Please save this email for your records.
+This email serves as your purchase confirmation and license activation receipt.
 
-🔒 SUBSCRIPTION MANAGEMENT:
-To cancel your subscription:
-Since Stripe doesn't allow self-service cancellation through payment links, please contact us directly to cancel your subscription.
-
-📧 Email: license@sorvide.com
-📝 Include in your email: Your email address and request to cancel
-⏰ Processing time: Cancellation requests are processed within 24 hours
-
-⚠️ NO REFUNDS POLICY:
-Unfortunately, we do not offer refunds at this time. Our AI models are resource-intensive and costly to run. However, you can cancel your subscription at any time to avoid future charges after the current billing period.
-
-🔑 HOW TO ACTIVATE PRO FEATURES:
+🔑 HOW TO ACTIVATE PRO FEATURES
+──────────────────────────────
 1. Open the Sorvide Chrome extension
 2. Click "Activate Pro" in the bottom status bar
 3. Enter your license key: ${licenseKey}
 4. Click "Activate License"
 
-🚀 PRO FEATURES YOU NOW HAVE ACCESS TO:
-• Unlimited AI summaries (vs. 5 daily free limit)
+✨ PRO FEATURES
+──────────────
+• Unlimited AI summaries (no daily limits)
 • Advanced plagiarism detection with detailed reports
 • AI-powered research insights and analysis
 • Export to PDF/Markdown with formatting preserved
-• Priority email support with faster response times
 • Advanced research library with tagging and organization
-• Custom citation styles beyond APA/MLA
-• And much more!
+• Priority support with faster response times
 
-💬 NEED HELP OR HAVE QUESTIONS?
-If you encounter any issues activating your license or have questions:
-📧 General Support: support@sorvide.com
-📧 Subscription/Cancellation: license@sorvide.com
-⏰ Response Time: Within 24 hours
+💬 NEED HELP?
+────────────
+General Support: support@sorvide.com
+Subscription Questions: license@sorvide.com
 
-Please do not reply to this automated email.
+Typical response time: Within 24 hours
 
-==========================================
-Thank you for supporting Sorvide!
+⚙️ SUBSCRIPTION MANAGEMENT
+────────────────────────
+To cancel your subscription, email us at license@sorvide.com
+Include your registered email address and request to cancel.
+
+⚠️ REFUND POLICY
+───────────────
+We do not offer refunds for subscriptions. Our AI infrastructure requires significant 
+computational resources, which are allocated immediately upon subscription. 
+You may cancel at any time to stop future billing cycles.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Happy researching!
+
 The Sorvide Team
-
-© ${new Date().getFullYear()} Sorvide
-This email was sent to ${customerEmail}
-By using Sorvide Pro, you agree to our Terms of Service and Privacy Policy.
-==========================================
+© ${new Date().getFullYear()} Sorvide Pro
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       `;
       
       await mg.messages.create(domain, {
         from: `Sorvide Pro <${fromEmail}>`,
         to: [customerEmail],
-        subject: 'Your Sorvide Pro License Key & Purchase Receipt',
+        subject: '✨ Welcome to Sorvide Pro! Your License Key & Activation Guide',
         text: text,
         html: html
       });
