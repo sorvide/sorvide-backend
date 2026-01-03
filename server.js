@@ -4,13 +4,64 @@ import { v4 as uuidv4 } from 'uuid';
 import Mailgun from 'mailgun.js';
 import formData from 'form-data';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
 dotenv.config();
 
 const app = express();
+
+// ==== CRITICAL: Define webhook endpoint FIRST ====
+// ================================================
+
+// Stripe webhook endpoint - MUST be defined BEFORE JSON parsers
+app.post('/api/webhook', 
+  // Use raw middleware for webhook endpoint
+  express.raw({type: 'application/json'}),
+  async (req, res) => {
+    console.log('🔍 DEBUG - Webhook received, body type:', typeof req.body);
+    console.log('🔍 DEBUG - Is Buffer?', Buffer.isBuffer(req.body));
+    
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,  // This must be raw buffer
+        sig, 
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+      console.log(`✅ Webhook received: ${event.type}`);
+    } catch (err) {
+      console.error(`❌ Webhook Error: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        await handleSuccessfulPayment(session);
+        break;
+      case 'invoice.paid':
+        const invoice = event.data.object;
+        await handleInvoicePayment(invoice);
+        break;
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted':
+        const subscription = event.data.object;
+        await handleSubscriptionUpdate(subscription);
+        break;
+      default:
+        console.log(`ℹ️ Unhandled event type ${event.type}`);
+    }
+
+    res.json({received: true});
+  }
+);
+
+// ==== NOW add regular middleware for all other routes ====
+// =========================================================
 
 // CORS configuration
 const corsOptions = {
@@ -19,8 +70,10 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// JSON body parser for all other routes (AFTER webhook)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -85,59 +138,6 @@ function generateLicenseKey() {
   
   return fullKey;
 }
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    service: 'Sorvide Backend',
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-  });
-});
-
-// Stripe webhook endpoint - MUST use raw body parser
-app.post('/api/webhook', 
-  // Use express.raw() for Stripe webhooks
-  express.raw({type: 'application/json'}),
-  async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,  // This is now raw body buffer
-        sig, 
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-      console.log(`✅ Webhook received: ${event.type}`);
-    } catch (err) {
-      console.error(`❌ Webhook Error: ${err.message}`);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    // Handle the event
-    switch (event.type) {
-      case 'checkout.session.completed':
-        const session = event.data.object;
-        await handleSuccessfulPayment(session);
-        break;
-      case 'invoice.paid':
-        const invoice = event.data.object;
-        await handleInvoicePayment(invoice);
-        break;
-      case 'customer.subscription.updated':
-      case 'customer.subscription.deleted':
-        const subscription = event.data.object;
-        await handleSubscriptionUpdate(subscription);
-        break;
-      default:
-        console.log(`ℹ️ Unhandled event type ${event.type}`);
-    }
-
-    res.json({received: true});
-  }
-);
 
 async function handleSuccessfulPayment(session) {
   try {
@@ -338,6 +338,19 @@ async function handleSubscriptionUpdate(subscription) {
     console.error('❌ Error handling subscription update:', error);
   }
 }
+
+// ==== ALL OTHER ROUTES GO HERE (after JSON parsers) ====
+// ======================================================
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'Sorvide Backend',
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
 
 // Validate license key
 app.post('/api/validate-license', async (req, res) => {
