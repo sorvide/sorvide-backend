@@ -186,6 +186,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     const domain = process.env.MAILGUN_DOMAIN || 'email.sorvide.com';
     const fromEmail = process.env.FROM_EMAIL || `noreply@${domain}`;
     
+    // Create a shorter, more compact HTML email
     const html = `
 <!DOCTYPE html>
 <html>
@@ -194,367 +195,247 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Sorvide Pro</title>
   <style>
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-    }
-    
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      line-height: 1.6; 
-      color: #333; 
+    /* INLINE STYLES ONLY - Email clients prefer inline styles */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
       background: #f5f7fa;
+      margin: 0;
       padding: 0;
-      min-height: 100vh;
     }
     
     .email-container {
       width: 100%;
-      max-width: 800px;
+      max-width: 600px;
       margin: 0 auto;
       background: white;
     }
     
-    /* HEADER */
-    .header { 
+    .header {
       background: linear-gradient(135deg, #4a4fd8, #2a2d7d);
-      color: white; 
-      padding: 60px 40px;
+      color: white;
+      padding: 40px 20px;
       text-align: center;
-      width: 100%;
     }
     
     .header h1 {
-      font-size: 38px;
+      font-size: 28px;
       font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      margin: 0 0 10px 0;
     }
     
     .header p {
-      font-size: 20px;
+      font-size: 16px;
       opacity: 0.95;
-      font-weight: 300;
+      margin: 0;
     }
     
-    /* MAIN CONTENT - ONE SINGLE BOX */
-    .main-content { 
-      padding: 60px 50px;
-      background: white;
-      width: 100%;
-    }
-    
-    /* GREETING */
-    .greeting-section {
-      margin-bottom: 40px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #e2e8f0;
+    .main-content {
+      padding: 30px;
     }
     
     .greeting {
-      font-size: 22px;
+      font-size: 18px;
       color: #2d3748;
-      margin-bottom: 20px;
-      font-weight: 500;
+      margin: 0 0 15px 0;
     }
     
     .intro {
       color: #4a5568;
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 700px;
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0 0 30px 0;
     }
     
-    /* LICENSE KEY */
     .license-section {
       background: #f8fafc;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 40px 0;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 0 0 30px 0;
       text-align: center;
-      width: 100%;
     }
     
     .license-label {
-      font-size: 15px;
+      font-size: 14px;
       color: #718096;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 20px;
-      font-weight: 600;
+      margin: 0 0 15px 0;
     }
     
     .license-key {
       font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-      font-size: 26px;
+      font-size: 20px;
       font-weight: 700;
       color: #2d3748;
-      letter-spacing: 0.5px;
       background: white;
-      padding: 24px;
-      border-radius: 8px;
+      padding: 15px;
+      border-radius: 6px;
       border: 2px solid #e2e8f0;
       margin: 0 auto;
-      display: block;
-      width: 100%;
-      max-width: 600px;
-      text-align: center;
+      word-break: break-all;
     }
     
-    /* SECTION TITLE */
     .section-title {
-      font-size: 24px;
+      font-size: 20px;
       color: #2d3748;
-      margin: 50px 0 30px 0;
-      font-weight: 600;
-      padding-bottom: 15px;
+      margin: 30px 0 20px 0;
+      padding-bottom: 10px;
       border-bottom: 2px solid #e2e8f0;
-      width: 100%;
     }
     
-    /* ACTIVATION STEPS - FIXED CENTERED NUMBERS */
-    .steps-container {
-      width: 100%;
-      margin-bottom: 50px;
-    }
-    
+    /* STEPS - FIXED CENTERING */
     .step {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 30px;
-      padding: 25px;
-      background: #f8fafc;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
+      display: table;
       width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
     }
     
-    .step-number-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 25px;
-      flex-shrink: 0;
+    .step-number-cell {
+      display: table-cell;
+      vertical-align: top;
       width: 50px;
-      height: 50px;
-      position: relative;
+      padding-right: 15px;
     }
     
     .step-number {
-      width: 100%;
-      height: 100%;
+      width: 40px;
+      height: 40px;
       background: #4a4fd8;
       color: white;
       border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: 700;
-      box-shadow: 0 4px 8px rgba(74, 79, 216, 0.2);
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      text-align: center;
+      margin: 3px 0 0 0; /* Added margin-top to push it down */
       padding: 0;
-      margin: 0;
     }
     
-    .step-content {
-      flex: 1;
-      padding-top: 4px; /* Adjust this to vertically align with number */
+    .step-content-cell {
+      display: table-cell;
+      vertical-align: top;
     }
     
     .step-title {
-      font-size: 18px;
+      font-size: 16px;
       color: #2d3748;
-      margin-bottom: 8px;
+      margin: 0 0 5px 0;
       font-weight: 600;
     }
     
     .step-description {
       color: #718096;
-      font-size: 16px;
-      line-height: 1.6;
-      max-width: 600px;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
     }
     
-    /* PURCHASE DETAILS */
     .purchase-details {
-      margin: 50px 0;
-      width: 100%;
+      margin: 30px 0;
     }
     
     .details-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      width: 100%;
+      display: block;
     }
     
     .detail-item {
-      padding: 25px;
+      padding: 15px;
       background: #f8fafc;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid #e2e8f0;
-      width: 100%;
+      margin-bottom: 15px;
     }
     
     .detail-label {
       color: #718096;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 10px;
+      margin: 0 0 5px 0;
     }
     
     .detail-value {
       color: #2d3748;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
     }
     
-    /* SUBSCRIPTION MANAGEMENT */
+    /* SUBSCRIPTION SECTION - REDUCED PADDING */
     .subscription-section {
       background: #f8fafc;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 50px 0;
-      width: 100%;
+      border-radius: 8px;
+      padding: 20px; /* Reduced from 40px */
+      margin: 30px 0 20px 0; /* Reduced from 50px 0 */
     }
     
     .subscription-title {
-      font-size: 22px;
+      font-size: 18px;
       color: #2d3748;
-      margin-bottom: 20px;
+      margin: 0 0 15px 0; /* Reduced margin */
       font-weight: 600;
     }
     
     .subscription-content {
       color: #4a5568;
-      font-size: 16px;
-      line-height: 1.7;
-      margin-bottom: 25px;
-      max-width: 700px;
-    }
-    
-    .email-instructions {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-top: 25px;
-    }
-    
-    .email-instructions-title {
-      color: #2d3748;
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-    
-    .email-instructions-list {
-      color: #4a5568;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.6;
-      margin-left: 20px;
+      margin: 0;
     }
     
-    .email-instructions-list li {
-      margin-bottom: 10px;
-    }
-    
-    .email-address {
-      color: #4a4fd8;
-      font-weight: 600;
-      font-size: 17px;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #e2e8f0;
+    .footer {
       text-align: center;
-    }
-    
-    /* FOOTER */
-    .footer { 
-      text-align: center; 
-      padding: 40px 0 30px;
-      color: #718096; 
-      font-size: 15px;
+      padding: 20px 0;
+      color: #718096;
+      font-size: 14px;
       border-top: 1px solid #e2e8f0;
-      margin-top: 60px;
-      width: 100%;
+      margin-top: 30px;
     }
     
     .footer-links {
-      margin-top: 20px;
-      font-size: 14px;
+      margin-top: 10px;
+      font-size: 13px;
     }
     
     .footer-links a {
       color: #4a4fd8;
       text-decoration: none;
-      margin: 0 10px;
+      margin: 0 8px;
     }
     
-    @media (max-width: 768px) {
-      .main-content { padding: 40px 25px; }
-      .header { padding: 40px 25px; }
-      .header h1 { font-size: 30px; }
-      .header p { font-size: 18px; }
-      .license-key { 
-        font-size: 22px; 
+    /* Mobile responsiveness */
+    @media screen and (max-width: 480px) {
+      .main-content {
         padding: 20px;
       }
-      .details-grid { grid-template-columns: 1fr; }
-      .step { 
-        padding: 20px;
-        margin-bottom: 20px;
+      
+      .header {
+        padding: 30px 15px;
       }
-      .step-number-container {
-        width: 44px;
-        height: 44px;
+      
+      .header h1 {
+        font-size: 24px;
       }
+      
+      .license-key {
+        font-size: 16px;
+        padding: 12px;
+      }
+      
       .step-number {
-        font-size: 20px;
-      }
-      .step-number-container {
-        margin-right: 20px;
-      }
-      .section-title {
-        font-size: 22px;
-        margin: 40px 0 25px 0;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .main-content { padding: 30px 20px; }
-      .header { padding: 30px 20px; }
-      .header h1 { font-size: 26px; }
-      .header p { font-size: 16px; }
-      .license-key { 
-        font-size: 20px; 
-        padding: 18px;
-      }
-      .step { 
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .step-number-container { 
-        margin-bottom: 15px;
-        margin-right: 0;
-        width: 40px;
-        height: 40px;
-      }
-      .step-number {
-        font-size: 18px;
-      }
-      .step-content {
-        padding-top: 0;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
       }
     }
   </style>
@@ -567,15 +448,13 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <p>Your monthly subscription is now active</p>
     </div>
     
-    <!-- MAIN CONTENT - ONE SINGLE CONTAINER -->
+    <!-- MAIN CONTENT -->
     <div class="main-content">
       <!-- GREETING -->
-      <div class="greeting-section">
-        <p class="greeting">Hi ${customerName || 'there'},</p>
-        <p class="intro">
-          Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked. 
-        </p>
-      </div>
+      <p class="greeting">Hi ${customerName || 'there'},</p>
+      <p class="intro">
+        Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.
+      </p>
       
       <!-- LICENSE KEY -->
       <div class="license-section">
@@ -585,73 +464,71 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       
       <!-- ACTIVATION STEPS -->
       <h2 class="section-title">How to Activate Pro Features</h2>
-      <div class="steps-container">
-        <div class="step">
-          <div class="step-number-container">
-            <div class="step-number">1</div>
-          </div>
-          <div class="step-content">
-            <div class="step-title">Open the Sorvide Chrome Extension</div>
-            <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
-          </div>
+      
+      <div class="step">
+        <div class="step-number-cell">
+          <div class="step-number">1</div>
         </div>
-        
-        <div class="step">
-          <div class="step-number-container">
-            <div class="step-number">2</div>
-          </div>
-          <div class="step-content">
-            <div class="step-title">Click "Activate Pro"</div>
-            <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
-          </div>
+        <div class="step-content-cell">
+          <div class="step-title">Open the Sorvide Chrome Extension</div>
+          <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
         </div>
-        
-        <div class="step">
-          <div class="step-number-container">
-            <div class="step-number">3</div>
-          </div>
-          <div class="step-content">
-            <div class="step-title">Enter Your License Key</div>
-            <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
-          </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number-cell">
+          <div class="step-number">2</div>
         </div>
-        
-        <div class="step">
-          <div class="step-number-container">
-            <div class="step-number">4</div>
-          </div>
-          <div class="step-content">
-            <div class="step-title">Click "Activate License"</div>
-            <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
-          </div>
+        <div class="step-content-cell">
+          <div class="step-title">Click "Activate Pro"</div>
+          <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number-cell">
+          <div class="step-number">3</div>
+        </div>
+        <div class="step-content-cell">
+          <div class="step-title">Enter Your License Key</div>
+          <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number-cell">
+          <div class="step-number">4</div>
+        </div>
+        <div class="step-content-cell">
+          <div class="step-title">Click "Activate License"</div>
+          <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
         </div>
       </div>
       
       <!-- PURCHASE DETAILS -->
       <h2 class="section-title">Purchase Details</h2>
       <div class="purchase-details">
-        <div class="details-grid">
-          <div class="detail-item">
-            <div class="detail-label">Subscription Plan</div>
-            <div class="detail-value">Sorvide Pro Monthly</div>
-          </div>
-          
-          <div class="detail-item">
-            <div class="detail-label">Monthly Price</div>
-            <div class="detail-value">$9.99 / month</div>
-          </div>
-          
-          <div class="detail-item">
-            <div class="detail-label">Billing Cycle</div>
-            <div class="detail-value">Monthly Recurring</div>
-          </div>
-          
-          <div class="detail-item">
-            <div class="detail-label">License Duration</div>
-            <div class="detail-value">30 Days (Auto-Renews)</div>
-          </div>
+        <div class="detail-item">
+          <div class="detail-label">Subscription Plan</div>
+          <div class="detail-value">Sorvide Pro Monthly</div>
         </div>
-        <p style="color: #718096; font-size: 15px; margin-top: 30px; text-align: center; width: 100%;">
+        
+        <div class="detail-item">
+          <div class="detail-label">Monthly Price</div>
+          <div class="detail-value">$9.99 / month</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Billing Cycle</div>
+          <div class="detail-value">Monthly Recurring</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">License Duration</div>
+          <div class="detail-value">30 Days (Auto-Renews)</div>
+        </div>
+        
+        <p style="color: #718096; font-size: 14px; margin-top: 15px; text-align: center;">
           This email serves as your purchase confirmation and license activation receipt. Please save it for your records.
         </p>
       </div>
@@ -680,23 +557,16 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
 </html>
     `;
     
-    const text = `
-========================================================================
-                         WELCOME TO SORVIDE PRO
-========================================================================
+    const text = `Welcome to Sorvide Pro
 
 Hi ${customerName || 'there'},
 
-Thank you for subscribing to Sorvide Pro. Your license key is ready and all 
-Pro features are ready to be unlocked.
+Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.
 
-========================================================================
-                         YOUR LICENSE KEY
-                         ${licenseKey}
-========================================================================
+YOUR LICENSE KEY
+${licenseKey}
 
 HOW TO ACTIVATE PRO FEATURES
-----------------------------
 1. Open the Sorvide Chrome Extension
    Click the Sorvide icon in your browser toolbar to open the extension
 
@@ -710,29 +580,20 @@ HOW TO ACTIVATE PRO FEATURES
    Your Pro features will be activated immediately after clicking this button
 
 PURCHASE DETAILS
-----------------
 • Subscription Plan: Sorvide Pro Monthly
 • Monthly Price: $9.99 / month
 • Billing Cycle: Monthly Recurring
 • License Duration: 30 Days (Auto-Renews)
 
-This email serves as your purchase confirmation and license activation receipt. 
-Please save it for your records.
+This email serves as your purchase confirmation and license activation receipt. Please save it for your records.
 
 SUBSCRIPTION MANAGEMENT
------------------------
-
-Subscription Cancellations
-
 If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.
 
-========================================================================
 © ${new Date().getFullYear()} Sorvide
 Website: https://sorvide.com
 Support: support@sorvide.com
-Subscriptions: license@sorvide.com
-========================================================================
-    `;
+Subscriptions: license@sorvide.com`;
     
     await mg.messages.create(domain, {
       from: `Sorvide Pro <${fromEmail}>`,
