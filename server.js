@@ -314,7 +314,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       width: 100%;
     }
     
-    /* ACTIVATION STEPS */
+    /* ACTIVATION STEPS - PERFECTLY CENTERED NUMBERS */
     .steps-container {
       width: 100%;
       margin-bottom: 50px;
@@ -322,7 +322,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     
     .step {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       margin-bottom: 30px;
       padding: 25px;
       background: #f8fafc;
@@ -331,20 +331,26 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       width: 100%;
     }
     
-    .step-number {
-      width: 40px;
-      height: 40px;
-      background: #4a4fd8;
-      color: white;
-      border-radius: 50%;
+    .step-number-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      font-weight: 600;
       margin-right: 25px;
       flex-shrink: 0;
-      margin-top: 2px;
+    }
+    
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: #4a4fd8;
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(74, 79, 216, 0.2);
     }
     
     .step-content {
@@ -414,7 +420,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     .subscription-title {
       font-size: 22px;
       color: #2d3748;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-weight: 600;
     }
     
@@ -426,18 +432,40 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       max-width: 700px;
     }
     
-    .contact-email {
+    .email-instructions {
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 8px;
-      border: 2px solid #4a4fd8;
-      font-size: 18px;
+      border: 1px solid #e2e8f0;
+      margin-top: 25px;
+    }
+    
+    .email-instructions-title {
+      color: #2d3748;
+      font-size: 16px;
       font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .email-instructions-list {
+      color: #4a5568;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-left: 20px;
+    }
+    
+    .email-instructions-list li {
+      margin-bottom: 10px;
+    }
+    
+    .email-address {
       color: #4a4fd8;
+      font-weight: 600;
+      font-size: 17px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
       text-align: center;
-      margin: 30px 0;
-      width: 100%;
-      max-width: 500px;
     }
     
     /* FOOTER */
@@ -476,19 +504,17 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         padding: 20px;
         margin-bottom: 20px;
       }
-      .step-number { 
-        width: 36px; 
-        height: 36px; 
-        font-size: 16px;
+      .step-number {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+      }
+      .step-number-container {
         margin-right: 20px;
       }
       .section-title {
         font-size: 22px;
         margin: 40px 0 25px 0;
-      }
-      .contact-email {
-        font-size: 16px;
-        padding: 18px;
       }
     }
     
@@ -505,9 +531,14 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         flex-direction: column;
         align-items: flex-start;
       }
-      .step-number { 
+      .step-number-container { 
         margin-bottom: 15px;
         margin-right: 0;
+      }
+      .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
       }
     }
   </style>
@@ -526,8 +557,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <div class="greeting-section">
         <p class="greeting">Hi ${customerName || 'there'},</p>
         <p class="intro">
-          Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are now unlocked for you. 
-          This email contains everything you need to get started with your subscription.
+          Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked. 
         </p>
       </div>
       
@@ -541,7 +571,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <h2 class="section-title">How to Activate Pro Features</h2>
       <div class="steps-container">
         <div class="step">
-          <div class="step-number">1</div>
+          <div class="step-number-container">
+            <div class="step-number">1</div>
+          </div>
           <div class="step-content">
             <div class="step-title">Open the Sorvide Chrome Extension</div>
             <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
@@ -549,7 +581,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         </div>
         
         <div class="step">
-          <div class="step-number">2</div>
+          <div class="step-number-container">
+            <div class="step-number">2</div>
+          </div>
           <div class="step-content">
             <div class="step-title">Click "Activate Pro"</div>
             <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
@@ -557,7 +591,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         </div>
         
         <div class="step">
-          <div class="step-number">3</div>
+          <div class="step-number-container">
+            <div class="step-number">3</div>
+          </div>
           <div class="step-content">
             <div class="step-title">Enter Your License Key</div>
             <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
@@ -565,7 +601,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         </div>
         
         <div class="step">
-          <div class="step-number">4</div>
+          <div class="step-number-container">
+            <div class="step-number">4</div>
+          </div>
           <div class="step-content">
             <div class="step-title">Click "Activate License"</div>
             <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
@@ -605,19 +643,34 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <!-- SUBSCRIPTION MANAGEMENT -->
       <h2 class="section-title">Subscription Management</h2>
       <div class="subscription-section">
-        <div class="subscription-title">To Cancel Your Subscription</div>
+        <div class="subscription-title">Subscription Cancellations</div>
         <div class="subscription-content">
-          <p>Since Stripe payment links don't allow self-service cancellation, please email us directly to cancel your subscription.</p>
-          <p>Include your registered email address and a request to cancel your subscription. Cancellation requests are processed within 24 hours of receiving your email.</p>
+          <p>If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team.</p>
         </div>
         
-        <div class="contact-email">license@sorvide.com</div>
+        <div class="email-instructions">
+          <div class="email-instructions-title">Please include the following in your cancellation request:</div>
+          <ul class="email-instructions-list">
+            <li>Email subject: "Cancellation Request"</li>
+            <li>Your registered email address</li>
+            <li>Your full name</li>
+          </ul>
+          
+          <div class="email-address">
+            Send cancellation requests to:<br>
+            <strong>license@sorvide.com</strong>
+          </div>
+        </div>
+        
+        <p style="color: #718096; font-size: 15px; margin-top: 25px;">
+          Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.
+        </p>
       </div>
     </div>
     
     <!-- FOOTER -->
     <div class="footer">
-      <div>© ${new Date().getFullYear()} Sorvide Pro. All rights reserved.</div>
+      <div>© ${new Date().getFullYear()} Sorvide</div>
       <div class="footer-links">
         <a href="https://sorvide.com">Website</a> | 
         <a href="mailto:support@sorvide.com">Support</a> | 
@@ -646,16 +699,16 @@ Pro features are ready to be unlocked.
 
 HOW TO ACTIVATE PRO FEATURES
 ----------------------------
-   Open the Sorvide Chrome Extension
+1. Open the Sorvide Chrome Extension
    Click the Sorvide icon in your browser toolbar to open the extension
 
-   Click "Activate Pro"
+2. Click "Activate Pro"
    Find and click the "Activate Pro" button in the bottom status bar of the extension
 
-   Enter Your License Key
+3. Enter Your License Key
    Copy and paste the license key from above into the activation dialog
 
-   Click "Activate License"
+4. Click "Activate License"
    Your Pro features will be activated immediately after clicking this button
 
 PURCHASE DETAILS
@@ -670,11 +723,21 @@ Please save it for your records.
 
 SUBSCRIPTION MANAGEMENT
 -----------------------
-To cancel your subscription, please email us directly at the address below.
-Include your registered email address and a request to cancel your subscription. 
-Cancellation requests are processed within 24 hours of receiving your email.
 
-Email: license@sorvide.com
+Subscription Cancellations
+
+If you wish to cancel your Sorvide Pro subscription, please send an email to our 
+subscription management team at:
+
+license@sorvide.com
+
+Please include the following in your cancellation request:
+• Email subject: "Cancellation Request"
+• Your registered email address
+• Your full name
+
+Cancellation requests are typically processed within 24 hours of receipt. You will 
+receive a confirmation email once your cancellation has been processed.
 
 ========================================================================
 © ${new Date().getFullYear()} Sorvide
