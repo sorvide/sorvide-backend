@@ -217,7 +217,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
                 <p style="color:#4a5568;font-size:16px;line-height:1.6;margin:0 0 30px 0;">Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.</p>
                 
                 <!-- LICENSE KEY -->
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 40px 0;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px 0;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;">
                   <tr>
                     <td style="padding:30px;text-align:center;">
                       <div style="font-size:14px;color:#718096;text-transform:uppercase;letter-spacing:1px;margin:0 0 20px 0;font-weight:600;">Your License Key</div>
