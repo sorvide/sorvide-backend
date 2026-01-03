@@ -6,15 +6,10 @@ import formData from 'form-data';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import EmailService from './EmailService.js';
-
 
 dotenv.config();
 
 const app = express();
-
-// Initialize EmailService
-const emailService = new EmailService();
 
 // ==== CRITICAL: Define webhook endpoint FIRST ====
 // ================================================
@@ -526,16 +521,16 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       </div>
       
       <p style="margin-top: 32px; color: #4a5568; text-align: center;">
-        Thank you for supporting Sorvide AI!<br>
+        Thank you for supporting Sorvide!<br>
         <strong>The Sorvide Team</strong>
       </p>
     </div>
     
     <div class="footer">
-      <p>© ${new Date().getFullYear()} Sorvide AI. All rights reserved.</p>
+      <p>© ${new Date().getFullYear()} Sorvide</p>
       <p>This email was sent to ${customerEmail}</p>
       <div class="contact-info">
-        <p>Sorvide AI • support@sorvide.com • license@sorvide.com</p>
+        <p>Sorvide • support@sorvide.com</p>
         <p>This is an automated message, please do not reply directly.</p>
         <p>By using Sorvide Pro, you agree to our Terms of Service and Privacy Policy.</p>
       </div>
@@ -604,10 +599,10 @@ If you encounter any issues activating your license or have questions:
 Please do not reply to this automated email.
 
 ==========================================
-Thank you for supporting Sorvide AI!
+Thank you for supporting Sorvide!
 The Sorvide Team
 
-© ${new Date().getFullYear()} Sorvide AI. All rights reserved.
+© ${new Date().getFullYear()} Sorvide
 This email was sent to ${customerEmail}
 By using Sorvide Pro, you agree to our Terms of Service and Privacy Policy.
 ==========================================
