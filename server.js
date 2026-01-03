@@ -186,387 +186,207 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     const domain = process.env.MAILGUN_DOMAIN || 'email.sorvide.com';
     const fromEmail = process.env.FROM_EMAIL || `noreply@${domain}`;
     
-    // Create a shorter, more compact HTML email
+    // Create a simpler, more compact HTML email
     const html = `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Sorvide Pro</title>
-  <style>
-    /* INLINE STYLES ONLY - Email clients prefer inline styles */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .email-container {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-    }
-    
-    .header {
-      background: linear-gradient(135deg, #4a4fd8, #2a2d7d);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-    }
-    
-    .header p {
-      font-size: 16px;
-      opacity: 0.95;
-      margin: 0;
-    }
-    
-    .main-content {
-      padding: 30px;
-    }
-    
-    .greeting {
-      font-size: 18px;
-      color: #2d3748;
-      margin: 0 0 15px 0;
-    }
-    
-    .intro {
-      color: #4a5568;
-      font-size: 15px;
-      line-height: 1.6;
-      margin: 0 0 30px 0;
-    }
-    
-    .license-section {
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 25px;
-      margin: 0 0 30px 0;
-      text-align: center;
-    }
-    
-    .license-label {
-      font-size: 14px;
-      color: #718096;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 0 0 15px 0;
-    }
-    
-    .license-key {
-      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-      font-size: 20px;
-      font-weight: 700;
-      color: #2d3748;
-      background: white;
-      padding: 15px;
-      border-radius: 6px;
-      border: 2px solid #e2e8f0;
-      margin: 0 auto;
-      word-break: break-all;
-    }
-    
-    .section-title {
-      font-size: 20px;
-      color: #2d3748;
-      margin: 30px 0 20px 0;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-    
-    /* STEPS - FIXED CENTERING */
-    .step {
-      display: table;
-      width: 100%;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-    
-    .step-number-cell {
-      display: table-cell;
-      vertical-align: top;
-      width: 50px;
-      padding-right: 15px;
-    }
-    
-    .step-number {
-      width: 40px;
-      height: 40px;
-      background: #4a4fd8;
-      color: white;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin: 3px 0 0 0; /* Added margin-top to push it down */
-      padding: 0;
-    }
-    
-    .step-content-cell {
-      display: table-cell;
-      vertical-align: top;
-    }
-    
-    .step-title {
-      font-size: 16px;
-      color: #2d3748;
-      margin: 0 0 5px 0;
-      font-weight: 600;
-    }
-    
-    .step-description {
-      color: #718096;
-      font-size: 14px;
-      line-height: 1.5;
-      margin: 0;
-    }
-    
-    .purchase-details {
-      margin: 30px 0;
-    }
-    
-    .details-grid {
-      display: block;
-    }
-    
-    .detail-item {
-      padding: 15px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 15px;
-    }
-    
-    .detail-label {
-      color: #718096;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 0 0 5px 0;
-    }
-    
-    .detail-value {
-      color: #2d3748;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    
-    /* SUBSCRIPTION SECTION - REDUCED PADDING */
-    .subscription-section {
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 20px; /* Reduced from 40px */
-      margin: 30px 0 20px 0; /* Reduced from 50px 0 */
-    }
-    
-    .subscription-title {
-      font-size: 18px;
-      color: #2d3748;
-      margin: 0 0 15px 0; /* Reduced margin */
-      font-weight: 600;
-    }
-    
-    .subscription-content {
-      color: #4a5568;
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-    }
-    
-    .footer {
-      text-align: center;
-      padding: 20px 0;
-      color: #718096;
-      font-size: 14px;
-      border-top: 1px solid #e2e8f0;
-      margin-top: 30px;
-    }
-    
-    .footer-links {
-      margin-top: 10px;
-      font-size: 13px;
-    }
-    
-    .footer-links a {
-      color: #4a4fd8;
-      text-decoration: none;
-      margin: 0 8px;
-    }
-    
-    /* Mobile responsiveness */
-    @media screen and (max-width: 480px) {
-      .main-content {
-        padding: 20px;
-      }
-      
-      .header {
-        padding: 30px 15px;
-      }
-      
-      .header h1 {
-        font-size: 24px;
-      }
-      
-      .license-key {
-        font-size: 16px;
-        padding: 12px;
-      }
-      
-      .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-    }
-  </style>
+  <title>Your Sorvide Pro License Key</title>
 </head>
-<body>
-  <div class="email-container">
-    <!-- HEADER -->
-    <div class="header">
-      <h1>Welcome to Sorvide Pro</h1>
-      <p>Your monthly subscription is now active</p>
-    </div>
-    
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-      <!-- GREETING -->
-      <p class="greeting">Hi ${customerName || 'there'},</p>
-      <p class="intro">
-        Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.
-      </p>
-      
-      <!-- LICENSE KEY -->
-      <div class="license-section">
-        <div class="license-label">Your License Key</div>
-        <div class="license-key">${licenseKey}</div>
-      </div>
-      
-      <!-- ACTIVATION STEPS -->
-      <h2 class="section-title">How to Activate Pro Features</h2>
-      
-      <div class="step">
-        <div class="step-number-cell">
-          <div class="step-number">1</div>
-        </div>
-        <div class="step-content-cell">
-          <div class="step-title">Open the Sorvide Chrome Extension</div>
-          <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number-cell">
-          <div class="step-number">2</div>
-        </div>
-        <div class="step-content-cell">
-          <div class="step-title">Click "Activate Pro"</div>
-          <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number-cell">
-          <div class="step-number">3</div>
-        </div>
-        <div class="step-content-cell">
-          <div class="step-title">Enter Your License Key</div>
-          <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number-cell">
-          <div class="step-number">4</div>
-        </div>
-        <div class="step-content-cell">
-          <div class="step-title">Click "Activate License"</div>
-          <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
-        </div>
-      </div>
-      
-      <!-- PURCHASE DETAILS -->
-      <h2 class="section-title">Purchase Details</h2>
-      <div class="purchase-details">
-        <div class="detail-item">
-          <div class="detail-label">Subscription Plan</div>
-          <div class="detail-value">Sorvide Pro Monthly</div>
-        </div>
-        
-        <div class="detail-item">
-          <div class="detail-label">Monthly Price</div>
-          <div class="detail-value">$9.99 / month</div>
-        </div>
-        
-        <div class="detail-item">
-          <div class="detail-label">Billing Cycle</div>
-          <div class="detail-value">Monthly Recurring</div>
-        </div>
-        
-        <div class="detail-item">
-          <div class="detail-label">License Duration</div>
-          <div class="detail-value">30 Days (Auto-Renews)</div>
-        </div>
-        
-        <p style="color: #718096; font-size: 14px; margin-top: 15px; text-align: center;">
-          This email serves as your purchase confirmation and license activation receipt. Please save it for your records.
-        </p>
-      </div>
-      
-      <!-- SUBSCRIPTION MANAGEMENT -->
-      <h2 class="section-title">Subscription Management</h2>
-      <div class="subscription-section">
-        <div class="subscription-title">Subscription Cancellations</div>
-        <div class="subscription-content">
-          <p>If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- FOOTER -->
-    <div class="footer">
-      <div>© ${new Date().getFullYear()} Sorvide</div>
-      <div class="footer-links">
-        <a href="https://sorvide.com">Website</a> | 
-        <a href="mailto:support@sorvide.com">Support</a> | 
-        <a href="mailto:license@sorvide.com">Subscriptions</a>
-      </div>
-    </div>
-  </div>
+<body style="margin:0;padding:0;background:#f5f7fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <center>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f7fa">
+      <tr>
+        <td align="center" style="padding:20px 0;">
+          <table width="650" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="max-width:650px;width:100%;border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+            <!-- HEADER -->
+            <tr>
+              <td bgcolor="#4a4fd8" style="padding:50px 30px;background:linear-gradient(135deg,#4a4fd8,#2a2d7d);color:#ffffff;text-align:center;">
+                <h1 style="margin:0 0 15px 0;font-size:32px;font-weight:700;">Welcome to Sorvide Pro</h1>
+                <p style="margin:0;font-size:18px;opacity:0.95;">Your monthly subscription is now active</p>
+              </td>
+            </tr>
+            
+            <!-- MAIN CONTENT -->
+            <tr>
+              <td style="padding:40px 40px 30px 40px;">
+                <!-- GREETING -->
+                <p style="font-size:18px;color:#2d3748;margin:0 0 20px 0;font-weight:500;">Hi ${customerName || 'there'},</p>
+                <p style="color:#4a5568;font-size:16px;line-height:1.6;margin:0 0 30px 0;">Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.</p>
+                
+                <!-- LICENSE KEY -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 40px 0;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:30px;text-align:center;">
+                      <div style="font-size:14px;color:#718096;text-transform:uppercase;letter-spacing:1px;margin:0 0 20px 0;font-weight:600;">Your License Key</div>
+                      <div style="font-family:'SF Mono',Monaco,'Courier New',monospace;font-size:22px;font-weight:700;color:#2d3748;background:#ffffff;padding:20px;border-radius:6px;border:2px solid #e2e8f0;word-break:break-all;letter-spacing:0.5px;">${licenseKey}</div>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- ACTIVATION STEPS -->
+                <h2 style="font-size:22px;color:#2d3748;margin:0 0 25px 0;padding-bottom:12px;border-bottom:2px solid #e2e8f0;font-weight:600;">How to Activate Pro Features</h2>
+                
+                <!-- Step 1 -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <div style="display:inline-block;width:32px;height:32px;background:#4a4fd8;color:#ffffff;border-radius:6px;font-size:16px;font-weight:700;text-align:center;line-height:32px;margin-right:15px;vertical-align:top;">1</div>
+                      <div style="display:inline-block;width:calc(100% - 55px);">
+                        <div style="font-size:16px;color:#2d3748;margin:0 0 5px 0;font-weight:600;">Open the Sorvide Chrome Extension</div>
+                        <div style="color:#718096;font-size:14px;line-height:1.5;margin:0;">Click the Sorvide icon in your browser toolbar to open the extension</div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- Step 2 -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <div style="display:inline-block;width:32px;height:32px;background:#4a4fd8;color:#ffffff;border-radius:6px;font-size:16px;font-weight:700;text-align:center;line-height:32px;margin-right:15px;vertical-align:top;">2</div>
+                      <div style="display:inline-block;width:calc(100% - 55px);">
+                        <div style="font-size:16px;color:#2d3748;margin:0 0 5px 0;font-weight:600;">Click "Activate Pro"</div>
+                        <div style="color:#718096;font-size:14px;line-height:1.5;margin:0;">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- Step 3 -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <div style="display:inline-block;width:32px;height:32px;background:#4a4fd8;color:#ffffff;border-radius:6px;font-size:16px;font-weight:700;text-align:center;line-height:32px;margin-right:15px;vertical-align:top;">3</div>
+                      <div style="display:inline-block;width:calc(100% - 55px);">
+                        <div style="font-size:16px;color:#2d3748;margin:0 0 5px 0;font-weight:600;">Enter Your License Key</div>
+                        <div style="color:#718096;font-size:14px;line-height:1.5;margin:0;">Copy and paste the license key from above into the activation dialog</div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- Step 4 -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 40px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <div style="display:inline-block;width:32px;height:32px;background:#4a4fd8;color:#ffffff;border-radius:6px;font-size:16px;font-weight:700;text-align:center;line-height:32px;margin-right:15px;vertical-align:top;">4</div>
+                      <div style="display:inline-block;width:calc(100% - 55px);">
+                        <div style="font-size:16px;color:#2d3748;margin:0 0 5px 0;font-weight:600;">Click "Activate License"</div>
+                        <div style="color:#718096;font-size:14px;line-height:1.5;margin:0;">Your Pro features will be activated immediately after clicking this button</div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- PURCHASE DETAILS -->
+                <h2 style="font-size:22px;color:#2d3748;margin:0 0 25px 0;padding-bottom:12px;border-bottom:2px solid #e2e8f0;font-weight:600;">Purchase Details</h2>
+                
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px 0;">
+                  <tr>
+                    <td width="50%" style="padding-right:10px;vertical-align:top;">
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                        <tr>
+                          <td style="padding:20px;">
+                            <div style="font-size:12px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px 0;font-weight:600;">Subscription Plan</div>
+                            <div style="font-size:16px;color:#2d3748;font-weight:600;">Sorvide Pro Monthly</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="50%" style="padding-left:10px;vertical-align:top;">
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                        <tr>
+                          <td style="padding:20px;">
+                            <div style="font-size:12px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px 0;font-weight:600;">Monthly Price</div>
+                            <div style="font-size:16px;color:#2d3748;font-weight:600;">$9.99 / month</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 30px 0;">
+                  <tr>
+                    <td width="50%" style="padding-right:10px;vertical-align:top;">
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                        <tr>
+                          <td style="padding:20px;">
+                            <div style="font-size:12px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px 0;font-weight:600;">Billing Cycle</div>
+                            <div style="font-size:16px;color:#2d3748;font-weight:600;">Monthly Recurring</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="50%" style="padding-left:10px;vertical-align:top;">
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                        <tr>
+                          <td style="padding:20px;">
+                            <div style="font-size:12px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px 0;font-weight:600;">License Duration</div>
+                            <div style="font-size:16px;color:#2d3748;font-weight:600;">30 Days (Auto-Renews)</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                
+                <p style="color:#718096;font-size:14px;text-align:center;margin:0 0 40px 0;">This email serves as your purchase confirmation and license activation receipt. Please save it for your records.</p>
+                
+                <!-- SUBSCRIPTION MANAGEMENT -->
+                <h2 style="font-size:22px;color:#2d3748;margin:0 0 25px 0;padding-bottom:12px;border-bottom:2px solid #e2e8f0;font-weight:600;">Subscription Management</h2>
+                
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 40px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <div style="font-size:16px;color:#2d3748;margin:0 0 12px 0;font-weight:600;">Subscription Cancellations</div>
+                      <div style="color:#4a5568;font-size:14px;line-height:1.6;margin:0;">If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            
+            <!-- FOOTER -->
+            <tr>
+              <td style="padding:30px 40px;text-align:center;border-top:1px solid #e2e8f0;">
+                <div style="color:#718096;font-size:14px;margin:0 0 15px 0;">© ${new Date().getFullYear()} Sorvide</div>
+                <div style="font-size:13px;">
+                  <a href="https://sorvide.com" style="color:#4a4fd8;text-decoration:none;margin:0 10px;">Website</a> | 
+                  <a href="mailto:support@sorvide.com" style="color:#4a4fd8;text-decoration:none;margin:0 10px;">Support</a> | 
+                  <a href="mailto:license@sorvide.com" style="color:#4a4fd8;text-decoration:none;margin:0 10px;">Subscriptions</a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </center>
 </body>
 </html>
     `;
     
-    const text = `Welcome to Sorvide Pro
+    const text = `
+========================================================================
+                         WELCOME TO SORVIDE PRO
+========================================================================
 
 Hi ${customerName || 'there'},
 
-Thank you for subscribing to Sorvide Pro. Your license key is ready and all Pro features are ready to be unlocked.
+Thank you for subscribing to Sorvide Pro. Your license key is ready and all 
+Pro features are ready to be unlocked.
 
-YOUR LICENSE KEY
-${licenseKey}
+========================================================================
+                         YOUR LICENSE KEY
+                         ${licenseKey}
+========================================================================
 
 HOW TO ACTIVATE PRO FEATURES
+----------------------------
 1. Open the Sorvide Chrome Extension
    Click the Sorvide icon in your browser toolbar to open the extension
 
@@ -580,25 +400,31 @@ HOW TO ACTIVATE PRO FEATURES
    Your Pro features will be activated immediately after clicking this button
 
 PURCHASE DETAILS
+----------------
 • Subscription Plan: Sorvide Pro Monthly
 • Monthly Price: $9.99 / month
 • Billing Cycle: Monthly Recurring
 • License Duration: 30 Days (Auto-Renews)
 
-This email serves as your purchase confirmation and license activation receipt. Please save it for your records.
+This email serves as your purchase confirmation and license activation receipt. 
+Please save it for your records.
 
 SUBSCRIPTION MANAGEMENT
+-----------------------
 If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.
 
+========================================================================
 © ${new Date().getFullYear()} Sorvide
 Website: https://sorvide.com
 Support: support@sorvide.com
-Subscriptions: license@sorvide.com`;
+Subscriptions: license@sorvide.com
+========================================================================
+    `;
     
     await mg.messages.create(domain, {
       from: `Sorvide Pro <${fromEmail}>`,
       to: [customerEmail],
-      subject: 'Your License Key & Activation Instructions',
+      subject: 'Your Sorvide Pro License Key & Activation Instructions',
       text: text,
       html: html
     });
