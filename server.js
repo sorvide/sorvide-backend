@@ -205,52 +205,55 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       line-height: 1.6; 
       color: #333; 
       background: #f5f7fa;
-      padding: 20px;
+      padding: 0;
       min-height: 100vh;
     }
     
     .email-container {
-      max-width: 680px;
+      width: 100%;
+      max-width: 800px;
       margin: 0 auto;
       background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     }
     
     /* HEADER */
     .header { 
       background: linear-gradient(135deg, #4a4fd8, #2a2d7d);
       color: white; 
-      padding: 50px 40px;
+      padding: 60px 40px;
       text-align: center;
+      width: 100%;
     }
     
     .header h1 {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 700;
       margin-bottom: 12px;
       letter-spacing: -0.5px;
     }
     
     .header p {
-      font-size: 18px;
+      font-size: 20px;
       opacity: 0.95;
       font-weight: 300;
     }
     
-    /* MAIN CONTENT */
-    .content { 
-      padding: 50px 50px 40px;
+    /* MAIN CONTENT - ONE SINGLE BOX */
+    .main-content { 
+      padding: 60px 50px;
+      background: white;
+      width: 100%;
     }
     
     /* GREETING */
     .greeting-section {
       margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #e2e8f0;
     }
     
     .greeting {
-      font-size: 20px;
+      font-size: 22px;
       color: #2d3748;
       margin-bottom: 20px;
       font-weight: 500;
@@ -258,8 +261,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     
     .intro {
       color: #4a5568;
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.7;
+      max-width: 700px;
     }
     
     /* LICENSE KEY */
@@ -267,233 +271,243 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       background: #f8fafc;
       border: 2px solid #e2e8f0;
       border-radius: 12px;
-      padding: 32px;
+      padding: 40px;
       margin: 40px 0;
       text-align: center;
+      width: 100%;
     }
     
     .license-label {
-      font-size: 14px;
+      font-size: 15px;
       color: #718096;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       font-weight: 600;
     }
     
     .license-key {
       font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
       color: #2d3748;
       letter-spacing: 0.5px;
       background: white;
-      padding: 20px;
+      padding: 24px;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin: 0 auto;
-      display: inline-block;
-      min-width: 400px;
-    }
-    
-    /* ACTIVATION STEPS */
-    .activation-section {
-      background: #f8fafc;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 40px 0;
-    }
-    
-    .section-title {
-      font-size: 22px;
-      color: #2d3748;
-      margin-bottom: 32px;
-      font-weight: 600;
+      margin: 0 auto;
+      display: block;
+      width: 100%;
+      max-width: 600px;
       text-align: center;
     }
     
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 24px;
+      color: #2d3748;
+      margin: 50px 0 30px 0;
+      font-weight: 600;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e2e8f0;
+      width: 100%;
+    }
+    
+    /* ACTIVATION STEPS */
     .steps-container {
-      max-width: 600px;
-      margin: 0 auto;
+      width: 100%;
+      margin-bottom: 50px;
     }
     
     .step {
       display: flex;
       align-items: flex-start;
-      margin-bottom: 28px;
-      position: relative;
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      width: 100%;
     }
     
     .step-number {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       background: #4a4fd8;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
-      margin-right: 20px;
+      margin-right: 25px;
       flex-shrink: 0;
       margin-top: 2px;
     }
     
     .step-content {
       flex: 1;
-      padding-top: 5px;
     }
     
     .step-title {
-      font-size: 17px;
+      font-size: 18px;
       color: #2d3748;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
     }
     
     .step-description {
       color: #718096;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.6;
+      max-width: 600px;
     }
     
     /* PURCHASE DETAILS */
     .purchase-details {
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 40px 0;
+      margin: 50px 0;
+      width: 100%;
     }
     
     .details-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin-top: 24px;
+      gap: 25px;
+      width: 100%;
     }
     
     .detail-item {
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
+      padding: 25px;
+      background: #f8fafc;
+      border-radius: 10px;
       border: 1px solid #e2e8f0;
+      width: 100%;
     }
     
     .detail-label {
       color: #718096;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     
     .detail-value {
       color: #2d3748;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
     }
     
     /* SUBSCRIPTION MANAGEMENT */
     .subscription-section {
-      background: #fef3c7;
-      border: 2px solid #fbbf24;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
       border-radius: 12px;
       padding: 40px;
-      margin: 40px 0;
+      margin: 50px 0;
+      width: 100%;
     }
     
     .subscription-title {
       font-size: 22px;
-      color: #92400e;
-      margin-bottom: 20px;
+      color: #2d3748;
+      margin-bottom: 25px;
       font-weight: 600;
-      text-align: center;
     }
     
     .subscription-content {
-      color: #78350f;
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 24px;
+      color: #4a5568;
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 25px;
+      max-width: 700px;
     }
     
     .contact-email {
       background: white;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #fbbf24;
-      font-size: 16px;
-      font-weight: 600;
-      color: #92400e;
-      text-align: center;
-      margin: 20px 0;
-    }
-    
-    .policy-note {
-      background: #fed7d7;
-      border: 1px solid #fc8181;
-      border-radius: 8px;
       padding: 20px;
-      margin-top: 24px;
-    }
-    
-    .policy-title {
-      color: #9b2c2c;
-      font-size: 15px;
+      border-radius: 8px;
+      border: 2px solid #4a4fd8;
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 8px;
-    }
-    
-    .policy-text {
-      color: #9b2c2c;
-      font-size: 14px;
-      line-height: 1.5;
+      color: #4a4fd8;
+      text-align: center;
+      margin: 30px 0;
+      width: 100%;
+      max-width: 500px;
     }
     
     /* FOOTER */
     .footer { 
       text-align: center; 
-      padding: 30px;
+      padding: 40px 0 30px;
       color: #718096; 
-      font-size: 14px;
+      font-size: 15px;
       border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      margin-top: 60px;
+      width: 100%;
     }
     
     .footer-links {
-      margin-top: 16px;
-      font-size: 13px;
+      margin-top: 20px;
+      font-size: 14px;
     }
     
     .footer-links a {
       color: #4a4fd8;
       text-decoration: none;
-      margin: 0 8px;
+      margin: 0 10px;
     }
     
     @media (max-width: 768px) {
-      .content { padding: 30px 20px; }
-      .header { padding: 40px 20px; }
-      .header h1 { font-size: 28px; }
+      .main-content { padding: 40px 25px; }
+      .header { padding: 40px 25px; }
+      .header h1 { font-size: 30px; }
+      .header p { font-size: 18px; }
+      .license-key { 
+        font-size: 22px; 
+        padding: 20px;
+      }
+      .details-grid { grid-template-columns: 1fr; }
+      .step { 
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .step-number { 
+        width: 36px; 
+        height: 36px; 
+        font-size: 16px;
+        margin-right: 20px;
+      }
+      .section-title {
+        font-size: 22px;
+        margin: 40px 0 25px 0;
+      }
+      .contact-email {
+        font-size: 16px;
+        padding: 18px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-content { padding: 30px 20px; }
+      .header { padding: 30px 20px; }
+      .header h1 { font-size: 26px; }
       .header p { font-size: 16px; }
       .license-key { 
         font-size: 20px; 
-        padding: 16px;
-        min-width: auto;
-        width: 100%;
-        box-sizing: border-box;
+        padding: 18px;
       }
-      .details-grid { grid-template-columns: 1fr; }
-      .step { margin-bottom: 24px; }
+      .step { 
+        flex-direction: column;
+        align-items: flex-start;
+      }
       .step-number { 
-        width: 32px; 
-        height: 32px; 
-        font-size: 14px;
-        margin-right: 16px;
+        margin-bottom: 15px;
+        margin-right: 0;
       }
     }
   </style>
@@ -506,8 +520,8 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <p>Your monthly subscription is now active</p>
     </div>
     
-    <!-- MAIN CONTENT -->
-    <div class="content">
+    <!-- MAIN CONTENT - ONE SINGLE CONTAINER -->
+    <div class="main-content">
       <!-- GREETING -->
       <div class="greeting-section">
         <p class="greeting">Hi ${customerName || 'there'},</p>
@@ -524,46 +538,44 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       </div>
       
       <!-- ACTIVATION STEPS -->
-      <div class="activation-section">
-        <h2 class="section-title">How to Activate Pro Features</h2>
-        <div class="steps-container">
-          <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <div class="step-title">Open the Sorvide Chrome Extension</div>
-              <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
-            </div>
+      <h2 class="section-title">How to Activate Pro Features</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Open the Sorvide Chrome Extension</div>
+            <div class="step-description">Click the Sorvide icon in your browser toolbar to open the extension</div>
           </div>
-          
-          <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <div class="step-title">Click "Activate Pro"</div>
-              <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
-            </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Click "Activate Pro"</div>
+            <div class="step-description">Find and click the "Activate Pro" button in the bottom status bar of the extension</div>
           </div>
-          
-          <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <div class="step-title">Enter Your License Key</div>
-              <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
-            </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Enter Your License Key</div>
+            <div class="step-description">Copy and paste the license key from above into the activation dialog</div>
           </div>
-          
-          <div class="step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <div class="step-title">Click "Activate License"</div>
-              <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
-            </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Click "Activate License"</div>
+            <div class="step-description">Your Pro features will be activated immediately after clicking this button</div>
           </div>
         </div>
       </div>
       
       <!-- PURCHASE DETAILS -->
+      <h2 class="section-title">Purchase Details</h2>
       <div class="purchase-details">
-        <h2 class="section-title">Purchase Details</h2>
         <div class="details-grid">
           <div class="detail-item">
             <div class="detail-label">Subscription Plan</div>
@@ -585,27 +597,21 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
             <div class="detail-value">30 Days (Auto-Renews)</div>
           </div>
         </div>
-        <p style="color: #718096; font-size: 14px; margin-top: 24px; text-align: center;">
+        <p style="color: #718096; font-size: 15px; margin-top: 30px; text-align: center; width: 100%;">
           This email serves as your purchase confirmation and license activation receipt. Please save it for your records.
         </p>
       </div>
       
       <!-- SUBSCRIPTION MANAGEMENT -->
+      <h2 class="section-title">Subscription Management</h2>
       <div class="subscription-section">
-        <h2 class="subscription-title">Subscription Management</h2>
-        
+        <div class="subscription-title">To Cancel Your Subscription</div>
         <div class="subscription-content">
-          <p>To cancel your subscription, please email us directly at the address below. Include your registered email address and a request to cancel your subscription. Cancellation requests are processed within 24 hours of receiving your email.</p>
+          <p>Since Stripe payment links don't allow self-service cancellation, please email us directly to cancel your subscription.</p>
+          <p>Include your registered email address and a request to cancel your subscription. Cancellation requests are processed within 24 hours of receiving your email.</p>
         </div>
         
         <div class="contact-email">license@sorvide.com</div>
-        
-        <div class="policy-note">
-          <div class="policy-title">Refund Policy</div>
-          <div class="policy-text">
-            We do not offer refunds for subscriptions. Our AI infrastructure requires significant computational resources, which are allocated immediately upon subscription. You may cancel at any time to stop future billing cycles.
-          </div>
-        </div>
       </div>
     </div>
     
@@ -631,7 +637,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
 Hi ${customerName || 'there'},
 
 Thank you for subscribing to Sorvide Pro. Your license key is ready and all 
-Pro features are now unlocked for you.
+Pro features are ready to be unlocked.
 
 ========================================================================
                          YOUR LICENSE KEY
@@ -640,16 +646,16 @@ Pro features are now unlocked for you.
 
 HOW TO ACTIVATE PRO FEATURES
 ----------------------------
-1. Open the Sorvide Chrome Extension
+   Open the Sorvide Chrome Extension
    Click the Sorvide icon in your browser toolbar to open the extension
 
-2. Click "Activate Pro"
+   Click "Activate Pro"
    Find and click the "Activate Pro" button in the bottom status bar of the extension
 
-3. Enter Your License Key
+   Enter Your License Key
    Copy and paste the license key from above into the activation dialog
 
-4. Click "Activate License"
+   Click "Activate License"
    Your Pro features will be activated immediately after clicking this button
 
 PURCHASE DETAILS
@@ -664,21 +670,14 @@ Please save it for your records.
 
 SUBSCRIPTION MANAGEMENT
 -----------------------
-To cancel your subscription, please email us directly at:
-
-license@sorvide.com
-
-Include your registered email address and a request to cancel your subscription.
+To cancel your subscription, please email us directly at the address below.
+Include your registered email address and a request to cancel your subscription. 
 Cancellation requests are processed within 24 hours of receiving your email.
 
-REFUND POLICY
--------------
-We do not offer refunds for subscriptions. Our AI infrastructure requires 
-significant computational resources, which are allocated immediately upon 
-subscription. You may cancel at any time to stop future billing cycles.
+Email: license@sorvide.com
 
 ========================================================================
-© ${new Date().getFullYear()} Sorvide Pro. All rights reserved.
+© ${new Date().getFullYear()} Sorvide
 Website: https://sorvide.com
 Support: support@sorvide.com
 Subscriptions: license@sorvide.com
@@ -688,7 +687,7 @@ Subscriptions: license@sorvide.com
       await mg.messages.create(domain, {
         from: `Sorvide Pro <${fromEmail}>`,
         to: [customerEmail],
-        subject: 'Sorvide Pro: Your License Key & Activation Instructions',
+        subject: 'Your License Key & Activation Instructions',
         text: text,
         html: html
       });
