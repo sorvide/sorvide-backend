@@ -314,7 +314,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       width: 100%;
     }
     
-    /* ACTIVATION STEPS - PERFECTLY CENTERED NUMBERS */
+    /* ACTIVATION STEPS - FIXED CENTERED NUMBERS */
     .steps-container {
       width: 100%;
       margin-bottom: 50px;
@@ -322,7 +322,7 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
     
     .step {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 30px;
       padding: 25px;
       background: #f8fafc;
@@ -335,14 +335,16 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 0px;
-      margin-top: 8px;
+      margin-right: 25px;
       flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      position: relative;
     }
     
     .step-number {
-      width: 50px;
-      height: 50px;
+      width: 100%;
+      height: 100%;
       background: #4a4fd8;
       color: white;
       border-radius: 8px;
@@ -352,10 +354,18 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       font-size: 22px;
       font-weight: 700;
       box-shadow: 0 4px 8px rgba(74, 79, 216, 0.2);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0;
+      margin: 0;
     }
     
     .step-content {
       flex: 1;
+      padding-top: 4px; /* Adjust this to vertically align with number */
     }
     
     .step-title {
@@ -505,9 +515,11 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
         padding: 20px;
         margin-bottom: 20px;
       }
-      .step-number {
+      .step-number-container {
         width: 44px;
         height: 44px;
+      }
+      .step-number {
         font-size: 20px;
       }
       .step-number-container {
@@ -535,11 +547,14 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       .step-number-container { 
         margin-bottom: 15px;
         margin-right: 0;
-      }
-      .step-number {
         width: 40px;
         height: 40px;
+      }
+      .step-number {
         font-size: 18px;
+      }
+      .step-content {
+        padding-top: 0;
       }
     }
   </style>
@@ -663,9 +678,9 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
   </div>
 </body>
 </html>
-      `;
-      
-      const text = `
+    `;
+    
+    const text = `
 ========================================================================
                          WELCOME TO SORVIDE PRO
 ========================================================================
@@ -717,22 +732,22 @@ Website: https://sorvide.com
 Support: support@sorvide.com
 Subscriptions: license@sorvide.com
 ========================================================================
-      `;
-      
-      await mg.messages.create(domain, {
-        from: `Sorvide Pro <${fromEmail}>`,
-        to: [customerEmail],
-        subject: 'Your License Key & Activation Instructions',
-        text: text,
-        html: html
-      });
-      
-      console.log(`✅ License email sent to ${customerEmail}`);
-      
-    } catch (error) {
-      console.error('❌ Error sending license email:', error);
-    }
+    `;
+    
+    await mg.messages.create(domain, {
+      from: `Sorvide Pro <${fromEmail}>`,
+      to: [customerEmail],
+      subject: 'Your License Key & Activation Instructions',
+      text: text,
+      html: html
+    });
+    
+    console.log(`✅ License email sent to ${customerEmail}`);
+    
+  } catch (error) {
+    console.error('❌ Error sending license email:', error);
   }
+}
 
 async function handleInvoicePayment(invoice) {
   try {
