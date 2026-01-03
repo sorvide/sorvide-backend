@@ -335,7 +335,8 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 25px;
+      margin-right: 0px;
+      margin-top: 8px;
       flex-shrink: 0;
     }
     
@@ -645,26 +646,8 @@ async function sendLicenseEmail(customerEmail, customerName, licenseKey) {
       <div class="subscription-section">
         <div class="subscription-title">Subscription Cancellations</div>
         <div class="subscription-content">
-          <p>If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team.</p>
+          <p>If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.</p>
         </div>
-        
-        <div class="email-instructions">
-          <div class="email-instructions-title">Please include the following in your cancellation request:</div>
-          <ul class="email-instructions-list">
-            <li>Email subject: "Cancellation Request"</li>
-            <li>Your registered email address</li>
-            <li>Your full name</li>
-          </ul>
-          
-          <div class="email-address">
-            Send cancellation requests to:<br>
-            <strong>license@sorvide.com</strong>
-          </div>
-        </div>
-        
-        <p style="color: #718096; font-size: 15px; margin-top: 25px;">
-          Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.
-        </p>
       </div>
     </div>
     
@@ -726,18 +709,7 @@ SUBSCRIPTION MANAGEMENT
 
 Subscription Cancellations
 
-If you wish to cancel your Sorvide Pro subscription, please send an email to our 
-subscription management team at:
-
-license@sorvide.com
-
-Please include the following in your cancellation request:
-• Email subject: "Cancellation Request"
-• Your registered email address
-• Your full name
-
-Cancellation requests are typically processed within 24 hours of receipt. You will 
-receive a confirmation email once your cancellation has been processed.
+If you wish to cancel your Sorvide Pro subscription, please send an email to our subscription management team at license@sorvide.com. Cancellation requests are typically processed within 24 hours of receipt. You will receive a confirmation email once your cancellation has been processed.
 
 ========================================================================
 © ${new Date().getFullYear()} Sorvide
